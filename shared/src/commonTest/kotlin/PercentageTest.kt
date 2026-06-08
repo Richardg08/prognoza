@@ -7,6 +7,7 @@ import kotlin.test.assertFailsWith
 class PercentageTest {
     private val tolerance = 0.0001
 
+    // UT-029
     @Test
     fun `throws exception when negative`() {
         assertFailsWith<IllegalStateException> {
@@ -14,6 +15,7 @@ class PercentageTest {
         }
     }
 
+    // UT-030
     @Test
     fun `throws exception when greater than 100 percent`() {
         assertFailsWith<IllegalStateException> {
@@ -21,6 +23,7 @@ class PercentageTest {
         }
     }
 
+    // UT-031
     @Test
     fun `converts from percent to fraction`() = assertEquals(
         expected = 0.7891,
@@ -28,6 +31,7 @@ class PercentageTest {
         absoluteTolerance = tolerance
     )
 
+    // UT-032
     @Test
     fun `converts from fraction to percent`() = assertEquals(
         expected = 28.71,

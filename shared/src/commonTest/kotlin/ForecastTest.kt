@@ -5,6 +5,7 @@ import kotlin.test.*
 class ForecastTest {
     private val timeZone = TimeZone.UTC
 
+    // UT-025
     @Test
     fun `throws exception when input data empty`() {
         assertFailsWith<IllegalStateException> {
@@ -12,6 +13,7 @@ class ForecastTest {
         }
     }
 
+    // UT-026
     @Test
     fun `when data spans 0-23hr forecast has today and coming`() {
         val start = getStartOfDay()
@@ -28,6 +30,7 @@ class ForecastTest {
         )
     }
 
+    // UT-027
     @Test
     fun `when data is 0-4hr forecast has only today`() {
         val start = getStartOfDay()
@@ -41,6 +44,7 @@ class ForecastTest {
         assertNull(forecast.coming)
     }
 
+    // UT-028
     @Test
     fun `when data is a single hour forecast has only current`() {
         val forecast = Forecast(listOf(getHourDatum(getStartOfDay())), timeZone)

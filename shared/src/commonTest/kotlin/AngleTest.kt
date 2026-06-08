@@ -8,6 +8,7 @@ import kotlin.test.assertEquals
 class AngleTest {
     private val tolerance = 0.0001
 
+    // UT-041
     @Test
     fun `directions are correct when angles are on compass rose`() {
         val degreesToExpectedDirections = mapOf(
@@ -45,24 +46,28 @@ class AngleTest {
             }
     }
 
+    // UT-042
     @Test
     fun `direction is west when angle is -90 deg`() = assertEquals(
         expected = CompassDirection.W,
         actual = Angle(-90.0, AngleUnit.DEGREE).compassDirection
     )
 
+    // UT-043
     @Test
     fun `direction is west when angle is -450 deg`() = assertEquals(
         expected = CompassDirection.W,
         actual = Angle(-450.0, AngleUnit.DEGREE).compassDirection
     )
 
+    // UT-044
     @Test
     fun `direction is east when angle is 450 deg`() = assertEquals(
         expected = CompassDirection.E,
         actual = Angle(450.0, AngleUnit.DEGREE).compassDirection
     )
 
+    // UT-045
     @Test
     fun `radians are pi when angle is 180 deg`() = assertEquals(
         expected = PI,
@@ -70,6 +75,7 @@ class AngleTest {
         absoluteTolerance = tolerance
     )
 
+    // UT-046
     @Test
     fun `degrees are 180 when angle is pi rad`() = assertEquals(
         expected = 180.0,

@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class SpeedTest { // Not Ookla ;)
+    // UT-047
     @Test
     fun `throws exception when less than 0`() {
         assertFailsWith<IllegalStateException> {
@@ -13,6 +14,7 @@ class SpeedTest { // Not Ookla ;)
         }
     }
 
+    // UT-048
     @Test
     fun `converts meters per second to others`() {
         val speed = Speed(2.0, SpeedUnit.METRE_PER_SECOND)
@@ -26,6 +28,7 @@ class SpeedTest { // Not Ookla ;)
         )
     }
 
+    // UT-049
     @Test
     fun `converts miles per hour to others`() {
         val speed = Speed(2.0, SpeedUnit.MILE_PER_HOUR)
@@ -39,6 +42,7 @@ class SpeedTest { // Not Ookla ;)
         )
     }
 
+    // UT-050
     @Test
     fun `converts kilometers per hour to others`() {
         val speed = Speed(2.0, SpeedUnit.KILOMETRE_PER_HOUR)
@@ -52,6 +56,7 @@ class SpeedTest { // Not Ookla ;)
         )
     }
 
+    // UT-051
     @Test
     fun `converts knots to others`() {
         val speed = Speed(2.0, SpeedUnit.KNOT)

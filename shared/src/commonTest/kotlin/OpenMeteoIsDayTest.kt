@@ -4,6 +4,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class OpenMeteoIsDayTest {
+    // UT-007
     @Test
     fun `is day after sunrise`() {
         assertEquals(
@@ -16,6 +17,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-008
     @Test
     fun `is day at sunrise`() {
         assertEquals(
@@ -28,6 +30,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-009
     @Test
     fun `is night after sunset`() {
         val times = listOf(
@@ -48,6 +51,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-010
     @Test
     fun `is night at sunset`() {
         assertEquals(
@@ -60,6 +64,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-011
     @Test
     fun `is day after second sunrise`() {
         val times = listOf(
@@ -82,6 +87,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-012
     @Test
     fun `is night after second sunset`() {
         val times = listOf(
@@ -105,6 +111,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-013
     @Test
     fun `is night between sunset and sunrise`() {
         val sunrises = listOf(1L, 4L)
@@ -119,6 +126,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-014
     @Test
     fun `is night between all sunrises and sunsets`() {
         val sunrises = listOf(1L, 4L, 7L, 10L, 13L)
@@ -136,6 +144,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-015
     @Test
     fun `stays night indefinitely after last sunset`() {
         val sunrises = listOf(1L, 4L)
@@ -153,6 +162,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-016
     @Test
     fun `recognizes single polar night`() {
         val sunrises = listOf(0L)
@@ -167,6 +177,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-017
     @Test
     fun `recognizes exclusively polar night`() {
         val sunrises = listOf(0L, 0L, 0L, 0L)
@@ -183,6 +194,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-018
     @Test
     fun `recognizes polar night at beginning`() {
         val sunrises = listOf(0L, 0L, 0L, 5L)
@@ -200,6 +212,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-019
     @Test
     fun `recognizes polar night at end`() {
         val sunrises = listOf(1L, 5L, 0L, 0L, 0L)
@@ -217,6 +230,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-020
     @Test
     fun `recognizes polar night in the middle`() {
         val sunrises = listOf(1L, 4L, 7L, 0L, 0L, 0L, 14L, 17L)
@@ -234,6 +248,7 @@ class OpenMeteoIsDayTest {
         )
     }
 
+    // UT-021
     @Test
     fun `recognizes polar night at start and end and twice in middle`() {
         val sunrises = listOf(0L, 0L, 5L, 8L, 0L, 0L, 13L, 0L, 0L, 19L, 22L, 0L, 0L)

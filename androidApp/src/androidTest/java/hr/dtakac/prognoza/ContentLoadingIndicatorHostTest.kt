@@ -17,6 +17,7 @@ class ContentLoadingIndicatorHostTest {
     private val tolerance = 20L
     private val loaderText = "loader"
 
+    // UI-001
     @Test
     fun whenNoTimeElapsedAndStateIsTrue_loaderInvisible() {
         composeTestRule.setContent {
@@ -25,6 +26,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertDoesNotExist()
     }
 
+    // UI-002
     @Test
     fun whenElapsedTimeLessThanShowDelay_loaderInvisible() {
         composeTestRule.setContent {
@@ -34,6 +36,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertDoesNotExist()
     }
 
+    // UI-003
     @Test
     fun whenElapsedTimeGreaterThanShowDelay_loaderVisible() {
         composeTestRule.setContent {
@@ -43,6 +46,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertExists()
     }
 
+    // UI-004
     @Test
     fun whenElapsedTimeBetweenShowDelayAndMinShowTime_loaderVisible() {
         val isLoading = mutableStateOf(true)
@@ -59,6 +63,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertExists()
     }
 
+    // UI-005
     @Test
     fun whenElapsedTimeGreaterThanShowDelayPlusMinShowTime_loaderInvisible() {
         val isLoading = mutableStateOf(true)
@@ -73,6 +78,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertDoesNotExist()
     }
 
+    // UI-006
     @Test
     fun whenShowAndHideCalledMultipleTimesEndingWithHide_loaderInvisible() {
         val isLoading = mutableStateOf(true)
@@ -90,6 +96,7 @@ class ContentLoadingIndicatorHostTest {
         composeTestRule.onNodeWithText(loaderText).assertDoesNotExist()
     }
 
+    // UI-007
     @Test
     fun whenShowAndHideCalledMultipleTimesEndingWithShow_loaderVisible() {
         val isLoading = mutableStateOf(true)

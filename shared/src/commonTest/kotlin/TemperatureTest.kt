@@ -7,6 +7,7 @@ import kotlin.test.assertFailsWith
 class TemperatureTest {
     private val tolerance = 0.0001
 
+    // UT-022
     @Test
     fun `converts to fahrenheit when celsius from -50 to 50`() {
         val celsiusToExpectedFahrenheit = mapOf(
@@ -33,6 +34,7 @@ class TemperatureTest {
             }
     }
 
+    // UT-023
     @Test
     fun `converts to celsius when fahrenheit from -58 to 122`() {
         val fahrenheitToExpectedCelsius = mapOf(
@@ -59,6 +61,7 @@ class TemperatureTest {
             }
     }
 
+    // UT-024
     @Test
     fun `throws exception when celsius less than 0K`() {
         assertFailsWith<IllegalStateException> {
