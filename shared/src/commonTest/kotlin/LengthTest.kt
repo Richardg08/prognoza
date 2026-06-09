@@ -49,6 +49,18 @@ class LengthTest {
         )
     }
 
+    // UT-053
+    @Test
+    fun `allows zero length`() {
+        val length = Length(0.0, LengthUnit.MILLIMETRE)
+        assertLengthsAreAsExpected(
+            length = length,
+            expectedMm = 0.0,
+            expectedIn = 0.0,
+            expectedCm = 0.0
+        )
+    }
+
     private fun assertLengthsAreAsExpected(
         length: Length,
         expectedMm: Double,

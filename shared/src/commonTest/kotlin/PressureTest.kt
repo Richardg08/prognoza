@@ -30,4 +30,20 @@ class PressureTest {
         actual = Pressure(3.0, PressureUnit.INCH_OF_MERCURY).millibar,
         absoluteTolerance = tolerance
     )
+
+    // UT-052
+    @Test
+    fun `allows zero pressure`() {
+        val pressure = Pressure(0.0, PressureUnit.MILLIBAR)
+        assertEquals(
+            expected = 0.0,
+            actual = pressure.millibar,
+            absoluteTolerance = tolerance
+        )
+        assertEquals(
+            expected = 0.0,
+            actual = pressure.inchOfMercury,
+            absoluteTolerance = tolerance
+        )
+    }
 }
