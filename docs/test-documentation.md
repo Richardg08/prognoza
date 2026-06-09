@@ -1,5 +1,21 @@
 # Test Documentation
 
+## Test Plan Summary
+
+This test plan covers the quality assurance points required for the project submission. The project is tested with automated Gradle tests for existing unit and UI/component tests, plus documented manual system, user acceptance, and non-functional tests on an Android emulator.
+
+| Required test plan topic | Coverage in this document | Status |
+| --- | --- | --- |
+| Functional testing | Manual functional/system tests `MT-001` to `MT-006` verify startup, place search, forecast display, settings, offline behavior, and provider behavior. | Covered |
+| Non-functional testing | Non-functional tests `NFT-001` to `NFT-005` verify stability, usability, performance, reliability, and emulator compatibility. | Covered |
+| Performance consideration | `NFT-003` defines manual startup and forecast loading thresholds. Threshold values are stored externally in `docs/manual-test-data.md`. | Covered |
+| Unit testing | Existing shared-module unit tests are documented as `UT-001` to `UT-051` and executed with Gradle. | Covered |
+| System testing | `MT-001`, `MT-002`, `MT-003`, and `MT-005` verify complete app workflows on an Android emulator. | Covered |
+| User acceptance testing | The core user acceptance condition is fulfilled when app startup, place selection, and forecast display pass. | Covered |
+| Used test tools | Android Studio, Android Emulator, Gradle, Logcat, and optional `adb` are documented as test tools. | Covered |
+| External test data | Manual and non-functional test data is stored in `docs/manual-test-data.md` instead of being hardcoded only inside test descriptions. | Covered |
+| APK packaging and deployment check | The Android application module provides Gradle tasks for building and installing a debug APK. APK packaging can be tested with `:androidApp:assembleDebug` and `:androidApp:installDebug`. | Covered |
+
 ## 1. Introduction
 
 Prognoza is an open-source Android weather application. The app retrieves weather forecast data from freely available REST-based weather providers, stores relevant data locally, and visualizes current and upcoming weather information for user-selected places.
@@ -246,8 +262,8 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | Tester role | QA / test engineering |
 | Test environment | Android Studio emulator, Pixel 7 test device, Android 15, network enabled except for MT-005 |
 | App variant | Debug build |
-| Manual tests executed | MT-001, MT-002, MT-003, MT-004, MT-005, MT-006, NFT-001, NFT-002, NFT-003, NFT-004, NFT-005 |
-| Passed | 11 |
+| Manual tests executed | MT-001, MT-002, MT-003, MT-004, MT-005, MT-006, NFT-001, NFT-002, NFT-003, NFT-004, NFT-005, PKG-001 |
+| Passed | 12 |
 | Failed | 0 |
 | Blocked | 0 |
 | Overall result | Manual system and functional test execution passed for the tested emulator environment. |
@@ -265,6 +281,7 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | NFT-003 | Passed | Startup, search, and forecast loading completed within an acceptable time for demonstration. |
 | NFT-004 | Passed | Disabled network did not terminate the app unexpectedly. |
 | NFT-005 | Passed | App was executable on the documented Android emulator environment. |
+| PKG-001 | Passed | Debug APK was built and installed on the connected emulator. |
 
 ### 7.6 Non-Functional Observations
 
@@ -358,6 +375,22 @@ Non-functional tests verify quality attributes instead of one single feature. In
 | Actual result | The app installed, launched, and supported the core workflow on the tested Pixel 7 Android 15 emulator. |
 | Status | Passed. |
 | Notes / evidence | Other Android versions and physical devices were not part of this execution. |
+
+### 7.8 APK Packaging And Deployment Check
+
+| Field | Value |
+| --- | --- |
+| Test ID | PKG-001 |
+| Test name | Debug APK packaging and emulator installation |
+| Test level | Packaging/deployment test |
+| Requirement reference | REQ-007 |
+| Preconditions | Android SDK and Gradle wrapper are available. An emulator is connected. |
+| Test data | TD-ENV-001, TD-NFT-006 |
+| Test steps | 1. Build the debug APK with `./gradlew :androidApp:assembleDebug`. 2. Verify that the APK file exists in `androidApp/build/outputs/apk/debug/`. 3. Install the APK with `./gradlew :androidApp:installDebug`. |
+| Expected result | The debug APK is created and can be installed on the connected emulator. |
+| Actual result | `androidApp-debug.apk` was created successfully and installed on the Pixel 7 Android 15 emulator. |
+| Status | Passed. |
+| Notes / evidence | APK metadata shows `applicationId` `hr.dtakac.prognoza.debug`, `versionName` `3.5.0`, and `versionCode` `21`. |
 
 ## 8. Existing Automated Tests
 
