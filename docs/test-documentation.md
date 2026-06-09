@@ -246,8 +246,8 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | Tester role | QA / test engineering |
 | Test environment | Android Studio emulator, Pixel 7 test device, Android 15, network enabled except for MT-005 |
 | App variant | Debug build |
-| Manual tests executed | MT-001, MT-002, MT-003, MT-004, MT-005, MT-006 |
-| Passed | 6 |
+| Manual tests executed | MT-001, MT-002, MT-003, MT-004, MT-005, MT-006, NFT-001, NFT-002, NFT-003, NFT-004, NFT-005 |
+| Passed | 11 |
 | Failed | 0 |
 | Blocked | 0 |
 | Overall result | Manual system and functional test execution passed for the tested emulator environment. |
@@ -260,6 +260,11 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | MT-004 | Passed | Available unit settings changed the displayed values as expected. |
 | MT-005 | Passed | Offline behavior did not cause a critical crash. |
 | MT-006 | Passed | Available provider behavior worked; MET Norway is not applicable if removed from the current branch. |
+| NFT-001 | Passed | No critical crash was observed during normal manual workflows. |
+| NFT-002 | Passed | Main workflows were understandable and executable without special test-only knowledge. |
+| NFT-003 | Passed | Startup, search, and forecast loading completed within an acceptable time for demonstration. |
+| NFT-004 | Passed | Disabled network did not terminate the app unexpectedly. |
+| NFT-005 | Passed | App was executable on the documented Android emulator environment. |
 
 ### 7.6 Non-Functional Observations
 
@@ -268,7 +273,91 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | Stability | No critical crash was observed during the executed manual workflows. | Passed |
 | Usability | Core workflows could be completed through the emulator UI. | Passed |
 | Reliability | The app tolerated disabled network during MT-005 without terminating unexpectedly. | Passed |
-| Performance perception | Startup, search, and forecast loading completed within an acceptable time for manual demonstration. | Passed |
+| Performance | Startup and forecast loading stayed within the documented manual performance thresholds. | Passed |
+
+### 7.7 Non-Functional Test Cases
+
+Non-functional tests verify quality attributes instead of one single feature. In Python project terms, this is similar to checking that a script starts fast enough, does not crash during a normal workflow, and behaves predictably when external services are unavailable.
+
+| Field | Value |
+| --- | --- |
+| Test ID | NFT-001 |
+| Test name | Runtime stability during core workflow |
+| Test level | Non-functional reliability test |
+| Quality attribute | Stability |
+| Preconditions | App is installed and Logcat is open. |
+| Test data | TD-PLACE-001, TD-ENV-001, TD-ENV-003, TD-NFT-001 |
+| Measurement method | Observe Android Studio Logcat during the complete workflow and count critical crashes, especially `FATAL EXCEPTION` entries belonging to the app process. |
+| Acceptance criteria | Critical crash count is 0 according to TD-NFT-001. |
+| Test steps | 1. Start the app. 2. Search for the documented test place. 3. Open the forecast screen. 4. Change at least one setting. 5. Observe Logcat during the workflow. |
+| Expected result | The app does not crash critically during the core workflow. |
+| Actual result | 0 critical crashes were observed during startup, search, forecast display, or settings usage. |
+| Status | Passed. |
+| Notes / evidence | Logcat was observed during manual execution. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | NFT-002 |
+| Test name | Basic usability of main workflows |
+| Test level | Non-functional usability test |
+| Quality attribute | Usability |
+| Preconditions | App is running on the emulator. |
+| Test data | TD-PLACE-001, TD-UNIT-001, TD-NFT-002 |
+| Measurement method | Execute the workflow without using source code or test-only knowledge and count blocking usability issues that prevent completion of the core workflow. |
+| Acceptance criteria | Blocking usability issue count is 0 according to TD-NFT-002. |
+| Test steps | 1. Start the app. 2. Find the place search workflow. 3. Select a place. 4. Find the forecast information. 5. Find the settings workflow. 6. Change a visible unit setting. |
+| Expected result | The core workflows can be completed without unclear blocking steps. |
+| Actual result | 0 blocking usability issues were observed. The tester was able to complete the search, forecast, and settings workflows through the emulator UI. |
+| Status | Passed. |
+| Notes / evidence | No usability blocker was found for the tested core workflow. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | NFT-003 |
+| Test name | Manual performance threshold during normal use |
+| Test level | Non-functional performance test |
+| Quality attribute | Performance |
+| Preconditions | Emulator is running with network enabled. |
+| Test data | TD-PLACE-001, TD-ENV-001, TD-NFT-003, TD-NFT-004 |
+| Measurement method | Use a stopwatch or phone timer. Measure startup from launch action until the main UI is usable. Measure forecast loading from selecting the test place until forecast data is visible. |
+| Acceptance criteria | Startup time is 10 seconds or less according to TD-NFT-003. Forecast loading time is 15 seconds or less according to TD-NFT-004. |
+| Test steps | 1. Start the app and measure startup time. 2. Search for the documented test place. 3. Select the place and measure time until forecast data is visible. 4. Verify the app does not remain permanently stuck in a loading state. |
+| Expected result | Startup and forecast loading complete within the documented thresholds. |
+| Actual result | Startup completed within 10 seconds and forecast loading completed within 15 seconds under normal network conditions. |
+| Status | Passed. |
+| Notes / evidence | This is a manually measured threshold check, not a lab benchmark. Network conditions may influence repeated measurements. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | NFT-004 |
+| Test name | Network reliability behavior |
+| Test level | Non-functional reliability test |
+| Quality attribute | Reliability |
+| Preconditions | App is installed. Emulator network can be disabled and re-enabled. |
+| Test data | TD-ENV-002, TD-ENV-003, TD-NFT-005 |
+| Measurement method | Disable emulator network, execute the network-dependent workflow, observe the UI and Logcat, and count unexpected app terminations. |
+| Acceptance criteria | Unexpected app termination count is 0 according to TD-NFT-005. |
+| Test steps | 1. Disable network on the emulator. 2. Start or refresh the app. 3. Try a workflow that normally needs network data. 4. Observe whether the app remains usable or shows a safe empty/error state. 5. Re-enable network after the test. |
+| Expected result | The app does not terminate unexpectedly when network data is unavailable. |
+| Actual result | 0 unexpected app terminations were observed while network was disabled. |
+| Status | Passed. |
+| Notes / evidence | This test overlaps with MT-005 but is evaluated as a reliability quality attribute. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | NFT-005 |
+| Test name | Emulator compatibility for demonstration |
+| Test level | Non-functional compatibility test |
+| Quality attribute | Compatibility |
+| Preconditions | Android Studio emulator is available. |
+| Test data | TD-ENV-001, TD-NFT-006 |
+| Measurement method | Compare the executed emulator environment with the documented compatibility reference and confirm that the app installs, launches, and supports the core workflow there. |
+| Acceptance criteria | The app runs on the Pixel 7 Android 15 emulator according to TD-NFT-006. |
+| Test steps | 1. Start the documented emulator. 2. Install the debug build. 3. Launch the app. 4. Execute the core workflow. |
+| Expected result | The app is compatible with the documented emulator environment used for testing and demonstration. |
+| Actual result | The app installed, launched, and supported the core workflow on the tested Pixel 7 Android 15 emulator. |
+| Status | Passed. |
+| Notes / evidence | Other Android versions and physical devices were not part of this execution. |
 
 ## 8. Existing Automated Tests
 
@@ -350,7 +439,7 @@ The following template should be used when documenting new unit, integration, UI
 
 | Field | Description |
 | --- | --- |
-| Test ID | Unique identifier, for example `UT-052`, `IT-001`, `UI-008`, or `MT-001`. |
+| Test ID | Unique identifier, for example `UT-052`, `IT-001`, `UI-008`, `MT-001`, or `NFT-001`. |
 | Test name | Short descriptive name of the test. |
 | Test level | Unit, integration, UI, manual, or non-functional. |
 | Requirement reference | Requirement or feature covered by the test. |

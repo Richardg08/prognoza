@@ -41,3 +41,13 @@ Reason: the default Unified Test Platform runner aborted before test discovery b
 | TD-ENV-002 | Android Studio emulator with network disabled | Error/offline behavior testing. |
 | TD-ENV-003 | Android Studio Logcat open during execution | Evidence that no critical crash appears during test execution. |
 
+## Non-Functional Acceptance Values
+
+| Data ID | Measurement | Acceptance value | Purpose |
+| --- | --- | --- | --- |
+| TD-NFT-001 | Critical crash count in Logcat during the tested workflow | 0 critical crashes | Stability acceptance threshold. |
+| TD-NFT-002 | Number of blocking usability issues during the tested core workflow | 0 blocking usability issues | Usability acceptance threshold. |
+| TD-NFT-003 | App startup time measured manually from launch action until main UI is usable | 10 seconds or less | Startup performance threshold for classroom demonstration. |
+| TD-NFT-004 | Forecast loading time measured manually from selecting a place until forecast data is visible | 15 seconds or less under normal network conditions | Forecast performance threshold for classroom demonstration. |
+| TD-NFT-005 | Unexpected app termination count while network is disabled | 0 unexpected terminations | Network reliability threshold. |
+| TD-NFT-006 | Supported emulator environment | Pixel 7 Android 15 emulator | Compatibility reference environment for project demonstration. |
