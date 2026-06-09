@@ -21,6 +21,8 @@ class PlacesViewModel @Inject constructor(
     private val selectPlace: SelectPlace,
     private val getSelectedPlace: GetSelectedPlace,
     private val deleteSavedPlace: DeleteSavedPlace,
+    private val searchPlacesByLocation: SearchPlacesByLocation,
+    private val locationProvider: hr.dtakac.prognoza.location.LocationProvider,
     private val widgetRefresher: WidgetRefresher,
     private val mapper: PlacesUiMapper
 ) : ViewModel() {
@@ -45,6 +47,21 @@ class PlacesViewModel @Inject constructor(
         viewModelScope.launch {
             showLoader()
             showSearchResults(query)
+            hideLoader()
+        }
+    }
+
+    fun getByCurrentLocation() {
+        viewModelScope.launch {
+            showLoader()
+            val location = locationProvider.getCurrentLocation()
+            if (location != null) {
+                showSearchResultsByLocation(location.first, location.second)
+            } else {
+                _state.value = _state.value.copy(
+                    empty = TextResource.fromStringId(R.string.error_search_places)
+                )
+            }
             hideLoader()
         }
     }
@@ -99,6 +116,23 @@ class PlacesViewModel @Inject constructor(
             }
             is SearchPlacesResult.Empty -> _state.value = _state.value.copy(
                 empty = mapper.mapToSearchPlacesError(result, query),
+                provider = null
+            )
+        }
+    }
+
+    private suspend fun showSearchResultsByLocation(latitude: Double, longitude: Double) {
+        when (val result = searchPlacesByLocation(latitude, longitude)) {
+            is SearchPlacesResult.Success -> {
+                currentPlaces = result.places
+                _state.value = _state.value.copy(
+                    places = mapper.mapToSearchResultPlacesUi(result.places),
+                    provider = mapper.getProvider(),
+                    empty = null
+                )
+            }
+            is SearchPlacesResult.Empty -> _state.value = _state.value.copy(
+                empty = TextResource.fromStringId(R.string.error_search_places),
                 provider = null
             )
         }

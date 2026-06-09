@@ -15,7 +15,6 @@ internal class DatabaseForecastRepository(
     private val forecastQueries: ForecastQueries,
     private val metaQueries: PrognozaMetaQueries,
     private val openMeteoProvider: ForecastProvider,
-    private val metNorwayProvider: ForecastProvider,
     private val computationDispatcher: CoroutineDispatcher,
     private val ioDispatcher: CoroutineDispatcher
 ) : ForecastRepository {
@@ -38,7 +37,7 @@ internal class DatabaseForecastRepository(
                 .get(latitude, longitude)
                 .executeAsOneOrNull()
                 ?.provider
-                ?: hr.dtakac.prognoza.shared.entity.ForecastProvider.MET_NORWAY
+                ?: hr.dtakac.prognoza.shared.entity.ForecastProvider.OPEN_METEO
         }
 
         return if (data.isEmpty()) {
@@ -84,11 +83,7 @@ internal class DatabaseForecastRepository(
         longitude: Double,
         from: hr.dtakac.prognoza.shared.entity.ForecastProvider
     ) {
-        val provider = when (from) {
-            hr.dtakac.prognoza.shared.entity.ForecastProvider.OPEN_METEO -> openMeteoProvider
-            hr.dtakac.prognoza.shared.entity.ForecastProvider.MET_NORWAY -> metNorwayProvider
-        }
-        val data = (provider.provide(latitude, longitude) as? ForecastProviderResult.Success)
+        val data = (openMeteoProvider.provide(latitude, longitude) as? ForecastProviderResult.Success)
             ?.data
             ?.takeIf { it.isNotEmpty() }
             ?: return

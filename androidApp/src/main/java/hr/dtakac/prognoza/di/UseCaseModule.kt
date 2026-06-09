@@ -54,6 +54,11 @@ class UseCaseModule {
     ): SelectPlace = prognozaSdk.selectPlace
 
     @Provides
+    fun provideSearchPlacesByLocationUseCase(
+        prognozaSdk: PrognozaSdk
+    ): SearchPlacesByLocation = prognozaSdk.searchPlacesByLocation
+
+    @Provides
     fun provideDeleteSavedPlaceUseCase(
         prognozaSdk: PrognozaSdk
     ): DeleteSavedPlace = prognozaSdk.deleteSavedPlace

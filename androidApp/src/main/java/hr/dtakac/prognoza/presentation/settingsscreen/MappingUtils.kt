@@ -48,6 +48,5 @@ fun MoodMode.toSettingsLabel(): Int = when (this) {
 
 @StringRes
 fun ForecastProvider.toSettingsLabel(): Int = when (this) {
-    ForecastProvider.MET_NORWAY -> R.string.met_norway_credit
     ForecastProvider.OPEN_METEO -> R.string.open_meteo_credit
 }

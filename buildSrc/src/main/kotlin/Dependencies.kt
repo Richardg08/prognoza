@@ -7,7 +7,7 @@ object GlobalVersions {
     // https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
     const val kotlinCompilerExtensionVersion = "1.3.1"
     const val sqlDelight = "1.5.3"
-    const val gradle = "7.2.2"
+    const val gradle = "7.4.2"
     const val hilt = "2.43.2"
 }
 
@@ -32,7 +32,6 @@ object Dependencies {
         private const val version = "2.1.3"
         const val core = "io.ktor:ktor-client-core:$version"
         const val android = "io.ktor:ktor-client-android:$version"
-        const val darwin = "io.ktor:ktor-client-darwin:$version"
         const val cio = "io.ktor:ktor-client-cio:$version"
         const val logging = "io.ktor:ktor-client-logging:$version"
         const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
@@ -43,12 +42,12 @@ object Dependencies {
         private const val version = GlobalVersions.sqlDelight
         const val core = "com.squareup.sqldelight:runtime:$version"
         const val android = "com.squareup.sqldelight:android-driver:$version"
-        const val native = "com.squareup.sqldelight:native-driver:$version"
     }
 
     object Coroutines {
         private const val version = "1.6.1"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
+        const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
     }
 
@@ -64,6 +63,7 @@ object Dependencies {
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
         const val work = "androidx.work:work-runtime-ktx:2.7.1"
         const val glance = "androidx.glance:glance-appwidget:1.0.0-alpha05"
+        const val location = "com.google.android.gms:play-services-location:21.0.1"
 
         object Hilt {
             private const val version = GlobalVersions.hilt
