@@ -131,6 +131,10 @@ object Dependencies {
 
         // Grundbibliothek für Coroutines.
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
+
+        // Integration zwischen Google Play Services Task APIs und Coroutines.
+        // Wird z. B. fuer LocationServices.await() verwendet.
+        const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version"
     }
 
     // Kotlinx DateTime Dependencies.
