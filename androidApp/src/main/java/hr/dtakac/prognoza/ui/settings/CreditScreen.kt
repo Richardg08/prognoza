@@ -79,13 +79,6 @@ fun LicensesAndCreditScreen(
                         modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp)
                     )
                 }
-                item(key = "met-no") {
-                    SettingItem(
-                        name = stringResource(id = R.string.met_norway_credit),
-                        value = stringResource(id = R.string.met_norway_credit_description),
-                        onClick = { openLink("https://api.met.no/doc/License", context) }
-                    )
-                }
                 item(key = "open-meteo") {
                     SettingItem(
                         name = stringResource(id = R.string.open_meteo_credit),
@@ -93,11 +86,11 @@ fun LicensesAndCreditScreen(
                         onClick = { openLink("https://open-meteo.com/en/features#terms", context) }
                     )
                 }
-                item(key = "osm") {
+                item(key = "photon") {
                     SettingItem(
-                        name = stringResource(id = R.string.osm_nominatim_credit),
-                        value = stringResource(id = R.string.osm_nominatim_credit_description),
-                        onClick = { openLink("https://www.openstreetmap.org/copyright", context) }
+                        name = stringResource(id = R.string.photon_credit),
+                        value = stringResource(id = R.string.photon_credit_description),
+                        onClick = { openLink("https://photon.komoot.io", context) }
                     )
                 }
                 item(key = "weather-icons") {

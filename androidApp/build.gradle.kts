@@ -101,6 +101,7 @@ dependencies {
     implementation(Dependencies.napier)
     implementation(Dependencies.Serialization.json)
     implementation(Dependencies.Coroutines.android)
+    implementation(Dependencies.Coroutines.playServices)
     implementation(Dependencies.DateTime.jvm)
 
     implementation(Dependencies.Android.Hilt.composeNavigation)
@@ -112,6 +113,7 @@ dependencies {
     implementation(Dependencies.Android.work)
     implementation(Dependencies.Android.splashScreen)
     implementation(Dependencies.Android.glance)
+    implementation(Dependencies.Android.location)
     implementation(Dependencies.Android.Lifecycle.core)
     implementation(Dependencies.Android.Lifecycle.viewModel)
     implementation(Dependencies.Android.Lifecycle.composeViewModel)

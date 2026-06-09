@@ -58,6 +58,6 @@ class PlacesUiMapper @Inject constructor(
 
     fun getProvider(): TextResource = TextResource.fromStringId(
         R.string.template_data_from,
-        TextResource.fromStringId(R.string.osm_nominatim_credit)
+        TextResource.fromStringId(R.string.photon_credit)
     )
 }

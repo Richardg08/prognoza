@@ -25,4 +25,5 @@ interface PrognozaSdk {
     val setForecastProvider: SetForecastProvider
     val getForecastProvider: GetForecastProvider
     val getAllForecastProviders: GetAllForecastProviders
+    val searchPlacesByLocation: SearchPlacesByLocation
 }

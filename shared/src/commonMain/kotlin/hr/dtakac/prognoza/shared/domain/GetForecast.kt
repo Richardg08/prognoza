@@ -45,7 +45,7 @@ internal class ActualGetForecast internal constructor(
         return mapToResult(
             place = selectedPlace,
             data = (data as? ForecastRepositoryResult.Success)?.data ?: listOf(),
-            provider = (data as? ForecastRepositoryResult.Success)?.provider ?: ForecastProvider.MET_NORWAY
+            provider = (data as? ForecastRepositoryResult.Success)?.provider ?: ForecastProvider.OPEN_METEO
         )
     }
 
