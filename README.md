@@ -74,7 +74,7 @@ App icon by [Nataša Takač](https://www.instagram.com/art.ofil/)
 
 ## Build
 
-### Requirements
+## Build Requirements
 
 To build the project locally, you need:
 
@@ -83,11 +83,6 @@ To build the project locally, you need:
 - Android SDK installed
 
 > Important: Use JDK 17 as the Gradle JDK.  
-> Newer versions such as Java 21 can cause Gradle compatibility errors in this project.
+> Newer Java versions such as Java 21 can cause Gradle or KAPT compatibility errors in this project.
 
-### Build debug APK
-
-Windows:
-
-```bash
-gradlew.bat :androidApp:assembleDebug
+For detailed build instructions, see [BUILDING.md](BUILDING.md).

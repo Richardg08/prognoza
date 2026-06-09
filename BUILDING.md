@@ -12,7 +12,7 @@ To build the project locally, you need:
 - Internet connection for the first Gradle sync
 
 > Important: Use JDK 17 as the Gradle JDK.  
-> Newer Java versions such as Java 21 can cause Gradle compatibility errors in this project.
+> Newer Java versions such as Java 21 can cause Gradle or KAPT compatibility errors in this project.
 
 ## Project Structure
 
