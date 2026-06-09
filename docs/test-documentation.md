@@ -66,13 +66,58 @@ The recommended test levels are:
 - UI testing: verify selected Compose components and visible user states.
 - Manual system testing: verify complete workflows on an Android emulator.
 
-## 6. Existing Automated Tests
+## 6. Requirements and Test Basis
+
+This section defines the requirements that are used as the basis for testing. They are derived from the project assignment and from the existing feature set of the application. In Python project terms, this is similar to writing down what behavior a `pytest` suite should prove before deciding which test files and test functions are needed.
+
+| Requirement ID | Requirement | Acceptance criteria | Test coverage |
+| --- | --- | --- | --- |
+| REQ-001 | The app shall use freely available weather data from REST-based APIs. | Weather data can be requested from at least one supported open weather provider. The provider usage is documented and visible in the codebase. | MT-001, MT-006 |
+| REQ-002 | The app shall display current weather and forecast information for a selected place. | After a place is selected and data is available, the app displays current weather and forecast sections without crashing. | UT-025, UT-026, UT-027, UT-028, MT-002, MT-003 |
+| REQ-003 | The app shall allow users to search for and select places. | A user can search for a place, select it, and use it as the active forecast location. Invalid coordinates are rejected by the domain model. | UT-004, UT-005, UT-006, MT-002 |
+| REQ-004 | The app shall support different measurement units. | Temperature, speed, precipitation/length, pressure, percentage, and angle values are converted correctly where applicable. | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051, MT-004 |
+| REQ-005 | The app shall correctly process weather-specific domain logic. | Forecast data is grouped into current, today, and coming-day sections. Wind chill and day/night calculation behave according to known expected values. | UT-007, UT-008, UT-009, UT-010, UT-011, UT-012, UT-013, UT-014, UT-015, UT-016, UT-017, UT-018, UT-019, UT-020, UT-021, UT-025, UT-026, UT-027, UT-028, UT-033, UT-034, UT-035, UT-036 |
+| REQ-006 | The app shall handle loading states in the UI in a controlled way. | The loading indicator is not shown too early, remains visible long enough to avoid flicker, and follows the latest loading state. | UI-001, UI-002, UI-003, UI-004, UI-005, UI-006, UI-007, MT-003 |
+| REQ-007 | The app shall run on an Android emulator for demonstration. | The app builds, installs, starts, and supports the main weather workflow on an emulator. | MT-001, MT-002, MT-003 |
+| REQ-008 | The app shall tolerate missing data, failed requests, or unavailable network conditions without critical crashes. | The app shows an error or empty state instead of crashing when required data is unavailable. | UT-025, MT-005 |
+| REQ-009 | The app shall use and document open-source components. | Important FLOSS components and external data providers are listed in the project documentation. | Documentation review |
+
+The `UT-*` and `UI-*` identifiers refer to existing automated tests. The `MT-*` identifiers refer to planned manual/system test cases that should be documented separately.
+
+### 6.1 Requirement Traceability Matrix
+
+| Requirement ID | Existing automated tests | Planned manual/system tests | Coverage status |
+| --- | --- | --- | --- |
+| REQ-001 | None currently. API provider code exists, but no automated API integration test is documented. | MT-001, MT-006 | Partially covered |
+| REQ-002 | UT-025, UT-026, UT-027, UT-028 | MT-002, MT-003 | Covered by unit and manual tests |
+| REQ-003 | UT-004, UT-005, UT-006 | MT-002 | Partially covered |
+| REQ-004 | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051 | MT-004 | Covered by unit and manual tests |
+| REQ-005 | UT-007, UT-008, UT-009, UT-010, UT-011, UT-012, UT-013, UT-014, UT-015, UT-016, UT-017, UT-018, UT-019, UT-020, UT-021, UT-025, UT-026, UT-027, UT-028, UT-033, UT-034, UT-035, UT-036 | MT-003 | Covered by unit and manual tests |
+| REQ-006 | UI-001, UI-002, UI-003, UI-004, UI-005, UI-006, UI-007 | MT-003 | Covered by UI and manual tests |
+| REQ-007 | None currently. Emulator execution is verified manually. | MT-001, MT-002, MT-003 | Manual coverage required |
+| REQ-008 | UT-025 | MT-005 | Partially covered |
+| REQ-009 | None required as runtime test. | Documentation review | Documentation coverage |
+
+### 6.2 Planned Manual Test IDs
+
+The manual test cases are intentionally listed here before their detailed steps are written. This allows the traceability matrix to show planned coverage early.
+
+| Test ID | Planned test area | Purpose |
+| --- | --- | --- |
+| MT-001 | App installation and startup on emulator | Verify that the app builds, installs, and launches on an Android emulator. |
+| MT-002 | Place search and selection | Verify that a user can search for a place and select it as active forecast location. |
+| MT-003 | Forecast display workflow | Verify that current weather and forecast sections are displayed for the selected place. |
+| MT-004 | Settings and unit changes | Verify that changing units affects displayed weather values. |
+| MT-005 | Error, empty, and offline behavior | Verify that unavailable network or missing data does not cause a critical crash. |
+| MT-006 | Forecast provider selection | Verify that supported forecast providers can be selected and used. |
+
+## 7. Existing Automated Tests
 
 The project already contains automated tests. Most of them are unit tests in the `shared` module. These tests are comparable to Python unit tests for pure model or service logic: they do not need the full Android app UI to verify business rules.
 
 The Android UI tests are located in `androidApp/src/androidTest`. These are closer to integration/UI tests in Python web projects, where the rendered interface is checked instead of only testing pure functions.
 
-### 6.1 Unit Test Inventory
+### 7.1 Unit Test Inventory
 
 | Test ID | Test file | Existing test name | Test objective |
 | --- | --- | --- | --- |
@@ -128,7 +173,7 @@ The Android UI tests are located in `androidApp/src/androidTest`. These are clos
 | UT-050 | `SpeedTest.kt` | `converts kilometers per hour to others` | Verify conversion from kilometers per hour to other speed units. |
 | UT-051 | `SpeedTest.kt` | `converts knots to others` | Verify conversion from knots to other speed units. |
 
-### 6.2 Android UI Test Inventory
+### 7.2 Android UI Test Inventory
 
 | Test ID | Test file | Existing test name | Test objective |
 | --- | --- | --- | --- |
@@ -140,7 +185,7 @@ The Android UI tests are located in `androidApp/src/androidTest`. These are clos
 | UI-006 | `ContentLoadingIndicatorHostTest.kt` | `whenShowAndHideCalledMultipleTimesEndingWithHide_loaderInvisible` | Verify repeated loading-state changes ending in hidden state hide the indicator. |
 | UI-007 | `ContentLoadingIndicatorHostTest.kt` | `whenShowAndHideCalledMultipleTimesEndingWithShow_loaderVisible` | Verify repeated loading-state changes ending in visible state show the indicator. |
 
-### 6.3 Test Case Documentation Template
+### 7.3 Test Case Documentation Template
 
 The following template should be used when documenting new unit, integration, UI, or manual tests.
 
@@ -174,7 +219,7 @@ Example:
 | Status | Not executed |
 | Notes / evidence | Add link to test file or test run output |
 
-## 7. Initial Acceptance Criteria
+## 8. Initial Acceptance Criteria
 
 The project is acceptable for demonstration if:
 
@@ -187,7 +232,7 @@ The project is acceptable for demonstration if:
 - Existing automated tests pass.
 - The test documentation describes the planned quality assurance process clearly enough for review.
 
-## 8. QA Role
+## 9. QA Role
 
 The QA role is responsible for defining the test strategy, documenting test cases, checking acceptance criteria, and reporting risks. The QA role does not need to understand every Android implementation detail, but should understand the main user workflows and the most important boundaries in the architecture.
 
