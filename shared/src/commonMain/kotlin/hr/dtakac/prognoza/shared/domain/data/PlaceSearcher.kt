@@ -7,6 +7,11 @@ internal interface PlaceSearcher {
         query: String,
         rfc2616Language: String
     ): PlaceSearcherResult
+
+    suspend fun reverse(
+        latitude: Double,
+        longitude: Double
+    ): PlaceSearcherResult
 }
 
 sealed interface PlaceSearcherResult {

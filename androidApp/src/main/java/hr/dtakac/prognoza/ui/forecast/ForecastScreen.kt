@@ -3,7 +3,6 @@ package hr.dtakac.prognoza.ui.forecast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
 import hr.dtakac.prognoza.presentation.forecast.ForecastState
 import hr.dtakac.prognoza.ui.places.PlacesScreen
@@ -50,7 +49,8 @@ fun ForecastScreen(
                     scope.launch {
                         drawerState.open()
                     }
-                }
+                },
+                onSettingsClick = onSettingsClick
             )
         }
     )

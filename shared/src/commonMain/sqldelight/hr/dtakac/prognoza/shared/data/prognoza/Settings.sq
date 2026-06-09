@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Settings (
 
 -- Prepopulated database
 INSERT OR IGNORE INTO Settings
-VALUES (0, "DEGREE_CELSIUS", "MILLIMETRE", "KILOMETRE_PER_HOUR", "MILLIBAR", "MET_NORWAY", NULL, NULL);
+VALUES (0, "DEGREE_CELSIUS", "MILLIMETRE", "KILOMETRE_PER_HOUR", "MILLIBAR", "OPEN_METEO", NULL, NULL);
 
 get:
 SELECT temperatureUnit, precipitationUnit, windUnit, pressureUnit, placeLatitude, placeLongitude, forecastProvider

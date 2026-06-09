@@ -26,6 +26,7 @@ fun PlacesContent(
     onPlaceClick: (Int) -> Unit = {},
     onSettingsClick: () -> Unit = {},
     onPlaceLongClick: (Int) -> Unit = {},
+    onCurrentLocationClick: () -> Unit = {}
 ) {
     Column {
         Column(
@@ -50,6 +51,16 @@ fun PlacesContent(
                     onSubmitClick = onSearchSubmit,
                     onQueryChange = onSearchQueryChange
                 )
+                IconButton(
+                    onClick = onCurrentLocationClick,
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_my_location),
+                        contentDescription = null
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
                     onClick = onSettingsClick,
                     modifier = Modifier.size(24.dp)

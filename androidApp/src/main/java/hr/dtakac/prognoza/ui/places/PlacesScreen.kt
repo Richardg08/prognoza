@@ -1,5 +1,7 @@
 package hr.dtakac.prognoza.ui.places
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalFocusManager
@@ -21,6 +23,14 @@ fun PlacesScreen(
     var query by remember { mutableStateOf("") }
     var placeDeletionDialogIndex by remember { mutableStateOf<Int?>(null) }
     val focusManager = LocalFocusManager.current
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.values.all { it }) {
+            viewModel.getByCurrentLocation()
+        }
+    }
 
     OnEvent(state.placeSelected) {
         query = ""
@@ -46,6 +56,14 @@ fun PlacesScreen(
             if (newQuery.isBlank()) {
                 viewModel.getSaved()
             }
+        },
+        onCurrentLocationClick = {
+            permissionLauncher.launch(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            )
         }
     )
 

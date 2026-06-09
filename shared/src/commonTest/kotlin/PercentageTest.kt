@@ -38,4 +38,29 @@ class PercentageTest {
         actual = Percentage(0.2871, PercentageUnit.FRACTION).percent,
         absoluteTolerance = tolerance
     )
+
+    // UT-054
+    @Test
+    fun `allows zero and one hundred percent boundaries`() {
+        assertEquals(
+            expected = 0.0,
+            actual = Percentage(0.0, PercentageUnit.PERCENT).fraction,
+            absoluteTolerance = tolerance
+        )
+        assertEquals(
+            expected = 1.0,
+            actual = Percentage(100.0, PercentageUnit.PERCENT).fraction,
+            absoluteTolerance = tolerance
+        )
+        assertEquals(
+            expected = 0.0,
+            actual = Percentage(0.0, PercentageUnit.FRACTION).percent,
+            absoluteTolerance = tolerance
+        )
+        assertEquals(
+            expected = 100.0,
+            actual = Percentage(1.0, PercentageUnit.FRACTION).percent,
+            absoluteTolerance = tolerance
+        )
+    }
 }

@@ -162,6 +162,7 @@ object Dependencies {
 
         // Glance AppWidget-Bibliothek für Android-Startbildschirm-Widgets.
         const val glance = "androidx.glance:glance-appwidget:1.0.0-alpha05"
+        const val location = "com.google.android.gms:play-services-location:21.0.1"
 
         // Hilt-Dependencies für Dependency Injection.
         object Hilt {
