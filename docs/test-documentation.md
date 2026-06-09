@@ -111,13 +111,140 @@ The manual test cases are intentionally listed here before their detailed steps 
 | MT-005 | Error, empty, and offline behavior | Verify that unavailable network or missing data does not cause a critical crash. |
 | MT-006 | Forecast provider selection | Verify that supported forecast providers can be selected and used. |
 
-## 7. Existing Automated Tests
+## 7. Manual Functional And System Tests
+
+The manual tests are executed as a hybrid system test approach: the app is run on an Android emulator, core workflows are executed manually, and Logcat is observed for crashes or unexpected errors. This gives practical end-to-end coverage without introducing new automated UI tests shortly before submission.
+
+Manual test data is stored separately in `docs/manual-test-data.md`. This keeps the test procedure reusable and avoids hardcoding all test data directly into the test steps.
+
+### 7.1 Manual Test Tools
+
+| Tool | Purpose |
+| --- | --- |
+| Android Studio | Build, install, and run the app on an emulator. |
+| Android Emulator | Execute the application in an environment accepted by the assignment. |
+| Logcat | Observe crashes, stack traces, permission errors, and network-related errors during manual execution. |
+| Optional `adb` | Reset app data or check connected devices from the command line. |
+
+Recommended optional `adb` commands:
+
+```bash
+adb devices
+adb shell pm clear hr.dtakac.prognoza.debug
+```
+
+### 7.2 Evidence Convention
+
+Manual test results should be documented directly in the test table. If additional evidence is needed, use predictable names for logs or notes:
+
+| Evidence type | Suggested path |
+| --- | --- |
+| MT-001 notes | `docs/test-evidence/MT-001-app-start.md` |
+| MT-002 notes | `docs/test-evidence/MT-002-place-search.md` |
+| MT-003 notes | `docs/test-evidence/MT-003-forecast-display.md` |
+| MT-004 notes | `docs/test-evidence/MT-004-unit-settings.md` |
+| MT-005 log excerpt | `docs/test-evidence/MT-005-error-offline.md` |
+| MT-006 notes | `docs/test-evidence/MT-006-provider-selection.md` |
+
+### 7.3 Manual Functional Test Cases
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-001 |
+| Test name | App installation and startup on emulator |
+| Test level | Manual system test |
+| Requirement reference | REQ-001, REQ-007 |
+| Preconditions | Android Studio is installed. An Android emulator is available. The project has been opened and Gradle sync has completed. |
+| Test data | TD-ENV-001 |
+| Test steps | 1. Start the Android emulator. 2. Build and run the app from Android Studio. 3. Wait until the launch screen finishes. 4. Observe whether the main UI is displayed. 5. Check Logcat for critical crash output. |
+| Expected result | The app installs, launches, and displays its main UI without a critical crash. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document observed launch behavior and any relevant Logcat findings. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-002 |
+| Test name | Place search and selection |
+| Test level | Manual functional test |
+| Requirement reference | REQ-002, REQ-003, REQ-007 |
+| Preconditions | App is running on emulator. Network is enabled. |
+| Test data | TD-PLACE-001, TD-ENV-001 |
+| Test steps | 1. Open the place/search area. 2. Enter the search input from TD-PLACE-001. 3. Wait for search results. 4. Select the expected place. 5. Return to the forecast screen. |
+| Expected result | Search results are displayed, the expected place can be selected, and the selected place becomes the active forecast location. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document selected place, observed result, and any relevant Logcat findings. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-003 |
+| Test name | Forecast display workflow |
+| Test level | Manual functional test |
+| Requirement reference | REQ-002, REQ-005, REQ-006, REQ-007 |
+| Preconditions | A valid place has been selected. Network is enabled. |
+| Test data | TD-PLACE-001, TD-ENV-001 |
+| Test steps | 1. Open the forecast screen for the selected place. 2. Wait until loading finishes. 3. Check current weather area. 4. Check hourly/today forecast if present. 5. Check coming-day forecast if present. 6. Observe Logcat for crashes. |
+| Expected result | The app displays current weather and available forecast sections. Loading behavior is controlled and the app does not crash. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document visible forecast sections and any relevant Logcat findings. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-004 |
+| Test name | Settings and unit changes |
+| Test level | Manual functional test |
+| Requirement reference | REQ-004 |
+| Preconditions | App is running with a selected place and visible forecast data. |
+| Test data | TD-UNIT-001, TD-UNIT-002, TD-UNIT-003 |
+| Test steps | 1. Open settings. 2. Change the temperature unit. 3. Return to forecast and verify visible temperature values use the selected unit. 4. Repeat for wind and precipitation units where available. |
+| Expected result | Unit settings can be changed and displayed forecast values reflect the selected units. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document changed units and observed displayed values. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-005 |
+| Test name | Error, empty, and offline behavior |
+| Test level | Manual functional/system test |
+| Requirement reference | REQ-008 |
+| Preconditions | App is installed on emulator. Logcat is open. |
+| Test data | TD-PLACE-004, TD-ENV-002, TD-ENV-003 |
+| Test steps | 1. Disable network on the emulator. 2. Start or refresh the app. 3. Try to search using TD-PLACE-004 if search is available. 4. Observe the UI state. 5. Observe Logcat for critical crashes. 6. Re-enable network after the test. |
+| Expected result | The app shows an empty or error state and does not crash critically. Any error should be handled visibly or logged for debugging. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document visible error or empty state and include relevant Logcat findings. |
+
+| Field | Value |
+| --- | --- |
+| Test ID | MT-006 |
+| Test name | Forecast provider selection |
+| Test level | Manual functional test |
+| Requirement reference | REQ-001 |
+| Preconditions | App is running. Network is enabled. Settings are accessible. |
+| Test data | TD-PROVIDER-001, TD-PROVIDER-002 |
+| Test steps | 1. Open settings. 2. Locate forecast provider setting if present. 3. Select Open-Meteo. 4. Return to forecast and refresh data. 5. If MET Norway is still available in the tested branch, repeat with MET Norway. |
+| Expected result | Supported providers can be selected and forecast data can be displayed after provider selection. If only Open-Meteo is available in the current branch, document MET Norway as not applicable. |
+| Actual result | To be filled during execution. |
+| Status | Not executed. |
+| Notes / evidence | Document selected provider and observed forecast behavior. |
+
+### 7.4 Manual Test Acceptance
+
+A manual test is considered passed when all expected results are fulfilled, no critical crash is observed, and the result is documented with status and evidence. A manual test is considered failed when the expected result is not fulfilled or a critical crash occurs. A manual test is considered blocked when it cannot be executed because of missing environment setup, unavailable emulator, unavailable network, or unavailable app functionality.
+
+For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-003 pass. These tests prove that a user can start the app, choose a place, and view weather information.
+
+## 8. Existing Automated Tests
 
 The project already contains automated tests. Most of them are unit tests in the `shared` module. These tests are comparable to Python unit tests for pure model or service logic: they do not need the full Android app UI to verify business rules.
 
 The Android UI tests are located in `androidApp/src/androidTest`. These are closer to integration/UI tests in Python web projects, where the rendered interface is checked instead of only testing pure functions.
 
-### 7.1 Unit Test Inventory
+### 8.1 Unit Test Inventory
 
 | Test ID | Test file | Existing test name | Test objective |
 | --- | --- | --- | --- |
@@ -173,7 +300,7 @@ The Android UI tests are located in `androidApp/src/androidTest`. These are clos
 | UT-050 | `SpeedTest.kt` | `converts kilometers per hour to others` | Verify conversion from kilometers per hour to other speed units. |
 | UT-051 | `SpeedTest.kt` | `converts knots to others` | Verify conversion from knots to other speed units. |
 
-### 7.2 Android UI Test Inventory
+### 8.2 Android UI Test Inventory
 
 | Test ID | Test file | Existing test name | Test objective |
 | --- | --- | --- | --- |
@@ -185,7 +312,7 @@ The Android UI tests are located in `androidApp/src/androidTest`. These are clos
 | UI-006 | `ContentLoadingIndicatorHostTest.kt` | `whenShowAndHideCalledMultipleTimesEndingWithHide_loaderInvisible` | Verify repeated loading-state changes ending in hidden state hide the indicator. |
 | UI-007 | `ContentLoadingIndicatorHostTest.kt` | `whenShowAndHideCalledMultipleTimesEndingWithShow_loaderVisible` | Verify repeated loading-state changes ending in visible state show the indicator. |
 
-### 7.3 Test Case Documentation Template
+### 8.3 Test Case Documentation Template
 
 The following template should be used when documenting new unit, integration, UI, or manual tests.
 
@@ -201,7 +328,7 @@ The following template should be used when documenting new unit, integration, UI
 | Expected result | Observable result required for the test to pass. |
 | Actual result | Result observed during execution. |
 | Status | Passed, failed, blocked, or not executed. |
-| Notes / evidence | Screenshots, logs, error messages, or additional observations. |
+| Notes / evidence | Logs, error messages, or additional observations. |
 
 Example:
 
@@ -219,7 +346,7 @@ Example:
 | Status | Not executed |
 | Notes / evidence | Add link to test file or test run output |
 
-## 8. Initial Acceptance Criteria
+## 9. Initial Acceptance Criteria
 
 The project is acceptable for demonstration if:
 
@@ -232,7 +359,7 @@ The project is acceptable for demonstration if:
 - Existing automated tests pass.
 - The test documentation describes the planned quality assurance process clearly enough for review.
 
-## 9. QA Role
+## 10. QA Role
 
 The QA role is responsible for defining the test strategy, documenting test cases, checking acceptance criteria, and reporting risks. The QA role does not need to understand every Android implementation detail, but should understand the main user workflows and the most important boundaries in the architecture.
 
