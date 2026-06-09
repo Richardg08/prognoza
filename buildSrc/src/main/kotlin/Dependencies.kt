@@ -7,7 +7,7 @@ object GlobalVersions {
     // https://developer.android.com/jetpack/androidx/releases/compose-kotlin#pre-release_kotlin_compatibility
     const val kotlinCompilerExtensionVersion = "1.3.1"
     const val sqlDelight = "1.5.3"
-    const val gradle = "7.2.2"
+    const val gradle = "7.4.2"
     const val hilt = "2.43.2"
 }
 
@@ -32,7 +32,6 @@ object Dependencies {
         private const val version = "2.1.3"
         const val core = "io.ktor:ktor-client-core:$version"
         const val android = "io.ktor:ktor-client-android:$version"
-        const val darwin = "io.ktor:ktor-client-darwin:$version"
         const val cio = "io.ktor:ktor-client-cio:$version"
         const val logging = "io.ktor:ktor-client-logging:$version"
         const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$version"
@@ -43,7 +42,6 @@ object Dependencies {
         private const val version = GlobalVersions.sqlDelight
         const val core = "com.squareup.sqldelight:runtime:$version"
         const val android = "com.squareup.sqldelight:android-driver:$version"
-        const val native = "com.squareup.sqldelight:native-driver:$version"
     }
 
     object Coroutines {

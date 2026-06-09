@@ -3,14 +3,12 @@ package hr.dtakac.prognoza.shared.platform
 import com.squareup.sqldelight.db.SqlDriver
 import hr.dtakac.prognoza.shared.PrognozaSdk
 import hr.dtakac.prognoza.shared.data.PrognozaDatabase
-import hr.dtakac.prognoza.shared.data.metnorway.*
-import hr.dtakac.prognoza.shared.data.metnorway.network.MetNorwayForecastService
 import hr.dtakac.prognoza.shared.data.openmeteo.CachedOpenMeteoResponseQueries
 import hr.dtakac.prognoza.shared.data.openmeteo.OpenMeteoForecastProvider
 import hr.dtakac.prognoza.shared.data.openmeteo.OpenMeteoMetaQueries
 import hr.dtakac.prognoza.shared.data.openmeteo.network.OpenMeteoForecastService
-import hr.dtakac.prognoza.shared.data.openstreetmap.OsmPlaceSearcher
-import hr.dtakac.prognoza.shared.data.openstreetmap.OsmPlaceService
+import hr.dtakac.prognoza.shared.data.photon.PhotonPlaceSearcher
+import hr.dtakac.prognoza.shared.data.photon.PhotonPlaceService
 import hr.dtakac.prognoza.shared.data.prognoza.*
 import hr.dtakac.prognoza.shared.domain.*
 import io.ktor.client.*
@@ -29,21 +27,11 @@ internal class InternalPrognozaSdkFactory constructor(
     private val localRfc2616LanguageGetter: LocalRfc2616LanguageGetter,
     private val sqlDriverFactory: SqlDriverFactory,
     private val dotDecimalFormatter: DotDecimalFormatter,
-    private val rfc1123UtcDateTimeParser: Rfc1123UtcDateTimeParser,
     private val ioDispatcher: CoroutineDispatcher,
     private val computationDispatcher: CoroutineDispatcher
 ) {
     fun create(): PrognozaSdk {
         val database = getDatabase(sqlDriverFactory.create())
-        val metNorwayProvider = getMetNorwayForecastProvider(
-            userAgent = userAgent,
-            dotDecimalFormatter = dotDecimalFormatter,
-            rfc1123UtcDateTimeParser = rfc1123UtcDateTimeParser,
-            metaQueries = database.metaQueries,
-            cachedResponseQueries = database.cachedResponseQueries,
-            ioDispatcher = ioDispatcher,
-            computationDispatcher = computationDispatcher
-        )
         val openMeteoProvider = getOpenMeteoForecastProvider(
             userAgent = userAgent,
             dotDecimalFormatter = dotDecimalFormatter,
@@ -52,12 +40,11 @@ internal class InternalPrognozaSdkFactory constructor(
             metaQueries = database.openMeteoMetaQueries,
             cachedOpenMeteoResponseQueries = database.cachedOpenMeteoResponseQueries
         )
-        val placeSearcher = getOsmPlaceSearcher(userAgent)
+        val placeSearcher = getPhotonPlaceSearcher()
         val forecastRepository = DatabaseForecastRepository(
             forecastQueries = database.forecastQueries,
             metaQueries = database.prognozaMetaQueries,
             openMeteoProvider = openMeteoProvider,
-            metNorwayProvider = metNorwayProvider,
             computationDispatcher = computationDispatcher,
             ioDispatcher = ioDispatcher
         )
@@ -158,29 +145,6 @@ internal class InternalPrognozaSdkFactory constructor(
         )
     )
 
-    private fun getMetNorwayForecastProvider(
-        userAgent: String,
-        dotDecimalFormatter: DotDecimalFormatter,
-        rfc1123UtcDateTimeParser: Rfc1123UtcDateTimeParser,
-        metaQueries: MetaQueries,
-        cachedResponseQueries: CachedResponseQueries,
-        ioDispatcher: CoroutineDispatcher,
-        computationDispatcher: CoroutineDispatcher
-    ): MetNorwayForecastProvider = MetNorwayForecastProvider(
-        apiService = MetNorwayForecastService(
-            client = getHttpClient(),
-            userAgent = userAgent,
-            baseUrl = "https://api.met.no/weatherapi",
-            dotDecimalFormatter = dotDecimalFormatter,
-            epochMillisToRfc1123 = rfc1123UtcDateTimeParser::format
-        ),
-        metaQueries = metaQueries,
-        cachedResponseQueries = cachedResponseQueries,
-        ioDispatcher = ioDispatcher,
-        computationDispatcher = computationDispatcher,
-        rfc1123ToEpochMillis = rfc1123UtcDateTimeParser::parseToEpochMillis
-    )
-
     private fun getOpenMeteoForecastProvider(
         userAgent: String,
         dotDecimalFormatter: DotDecimalFormatter,
@@ -201,11 +165,10 @@ internal class InternalPrognozaSdkFactory constructor(
         metaQueries = metaQueries
     )
 
-    private fun getOsmPlaceSearcher(userAgent: String): OsmPlaceSearcher = OsmPlaceSearcher(
-        osmPlaceService = OsmPlaceService(
+    private fun getPhotonPlaceSearcher(): PhotonPlaceSearcher = PhotonPlaceSearcher(
+        photonPlaceService = PhotonPlaceService(
             client = getHttpClient(),
-            baseUrl = "https://nominatim.openstreetmap.org",
-            userAgent = userAgent
+            baseUrl = "https://photon.komoot.io"
         )
     )
 }
