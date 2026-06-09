@@ -71,3 +71,23 @@ Weather icons by [MET Norway](https://www.met.no/en)
 Geolocation data by [OSM Nominatim](https://nominatim.org/)  
 Design inspired by [Neal Hampton](https://dribbble.com/shots/6680361-Dribbble-Daily-UI-37-Weather-2)  
 App icon by [Nataša Takač](https://www.instagram.com/art.ofil/)
+
+## Build
+
+### Requirements
+
+To build the project locally, you need:
+
+- Android Studio
+- JDK 17
+- Android SDK installed
+
+> Important: Use JDK 17 as the Gradle JDK.  
+> Newer versions such as Java 21 can cause Gradle compatibility errors in this project.
+
+### Build debug APK
+
+Windows:
+
+```bash
+gradlew.bat :androidApp:assembleDebug
