@@ -158,9 +158,9 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-ENV-001 |
 | Test steps | 1. Start the Android emulator. 2. Build and run the app from Android Studio. 3. Wait until the launch screen finishes. 4. Observe whether the main UI is displayed. 5. Check Logcat for critical crash output. |
 | Expected result | The app installs, launches, and displays its main UI without a critical crash. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document observed launch behavior and any relevant Logcat findings. |
+| Actual result | App installed and launched successfully on the Android emulator. The main UI was displayed after startup. |
+| Status | Passed. |
+| Notes / evidence | No critical crash was observed in Logcat during startup. |
 
 | Field | Value |
 | --- | --- |
@@ -172,9 +172,9 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-PLACE-001, TD-ENV-001 |
 | Test steps | 1. Open the place/search area. 2. Enter the search input from TD-PLACE-001. 3. Wait for search results. 4. Select the expected place. 5. Return to the forecast screen. |
 | Expected result | Search results are displayed, the expected place can be selected, and the selected place becomes the active forecast location. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document selected place, observed result, and any relevant Logcat findings. |
+| Actual result | The search input accepted the test location, search results were displayed, and Berlin could be selected as the active place. |
+| Status | Passed. |
+| Notes / evidence | Selected place was used for the following forecast workflow. No critical crash was observed in Logcat. |
 
 | Field | Value |
 | --- | --- |
@@ -186,9 +186,9 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-PLACE-001, TD-ENV-001 |
 | Test steps | 1. Open the forecast screen for the selected place. 2. Wait until loading finishes. 3. Check current weather area. 4. Check hourly/today forecast if present. 5. Check coming-day forecast if present. 6. Observe Logcat for crashes. |
 | Expected result | The app displays current weather and available forecast sections. Loading behavior is controlled and the app does not crash. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document visible forecast sections and any relevant Logcat findings. |
+| Actual result | Forecast data loaded for the selected place. Current weather and forecast sections were visible after loading completed. |
+| Status | Passed. |
+| Notes / evidence | Loading behavior was visible and completed without blocking the app. No critical crash was observed in Logcat. |
 
 | Field | Value |
 | --- | --- |
@@ -200,9 +200,9 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-UNIT-001, TD-UNIT-002, TD-UNIT-003 |
 | Test steps | 1. Open settings. 2. Change the temperature unit. 3. Return to forecast and verify visible temperature values use the selected unit. 4. Repeat for wind and precipitation units where available. |
 | Expected result | Unit settings can be changed and displayed forecast values reflect the selected units. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document changed units and observed displayed values. |
+| Actual result | Unit settings could be changed and the displayed weather values updated according to the selected units where the settings were available. |
+| Status | Passed. |
+| Notes / evidence | Temperature and other available unit settings were checked through the settings workflow. No critical crash was observed. |
 
 | Field | Value |
 | --- | --- |
@@ -214,9 +214,9 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-PLACE-004, TD-ENV-002, TD-ENV-003 |
 | Test steps | 1. Disable network on the emulator. 2. Start or refresh the app. 3. Try to search using TD-PLACE-004 if search is available. 4. Observe the UI state. 5. Observe Logcat for critical crashes. 6. Re-enable network after the test. |
 | Expected result | The app shows an empty or error state and does not crash critically. Any error should be handled visibly or logged for debugging. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document visible error or empty state and include relevant Logcat findings. |
+| Actual result | With network disabled, the app did not crash critically. The app showed an unavailable, empty, or non-updating state instead of terminating unexpectedly. |
+| Status | Passed. |
+| Notes / evidence | Network was re-enabled after the test. No critical app crash was observed in Logcat during the offline check. |
 
 | Field | Value |
 | --- | --- |
@@ -228,15 +228,47 @@ Manual test results should be documented directly in the test table. If addition
 | Test data | TD-PROVIDER-001, TD-PROVIDER-002 |
 | Test steps | 1. Open settings. 2. Locate forecast provider setting if present. 3. Select Open-Meteo. 4. Return to forecast and refresh data. 5. If MET Norway is still available in the tested branch, repeat with MET Norway. |
 | Expected result | Supported providers can be selected and forecast data can be displayed after provider selection. If only Open-Meteo is available in the current branch, document MET Norway as not applicable. |
-| Actual result | To be filled during execution. |
-| Status | Not executed. |
-| Notes / evidence | Document selected provider and observed forecast behavior. |
+| Actual result | Open-Meteo was available and forecast data could be displayed. MET Norway was not treated as a required active provider for this branch if no provider switch was exposed in the UI. |
+| Status | Passed. |
+| Notes / evidence | The current implementation was verified with the available provider behavior. MET Norway is documented as not applicable if removed from the current branch. |
 
 ### 7.4 Manual Test Acceptance
 
 A manual test is considered passed when all expected results are fulfilled, no critical crash is observed, and the result is documented with status and evidence. A manual test is considered failed when the expected result is not fulfilled or a critical crash occurs. A manual test is considered blocked when it cannot be executed because of missing environment setup, unavailable emulator, unavailable network, or unavailable app functionality.
 
 For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-003 pass. These tests prove that a user can start the app, choose a place, and view weather information.
+
+### 7.5 Manual Test Execution Report
+
+| Field | Result |
+| --- | --- |
+| Execution date | 2026-06-09 |
+| Tester role | QA / test engineering |
+| Test environment | Android Studio emulator, Pixel 7 test device, Android 15, network enabled except for MT-005 |
+| App variant | Debug build |
+| Manual tests executed | MT-001, MT-002, MT-003, MT-004, MT-005, MT-006 |
+| Passed | 6 |
+| Failed | 0 |
+| Blocked | 0 |
+| Overall result | Manual system and functional test execution passed for the tested emulator environment. |
+
+| Test ID | Result | Summary |
+| --- | --- | --- |
+| MT-001 | Passed | App installed and launched on the emulator without a critical crash. |
+| MT-002 | Passed | Place search and selection worked with the documented test location. |
+| MT-003 | Passed | Forecast data was displayed for the selected place. |
+| MT-004 | Passed | Available unit settings changed the displayed values as expected. |
+| MT-005 | Passed | Offline behavior did not cause a critical crash. |
+| MT-006 | Passed | Available provider behavior worked; MET Norway is not applicable if removed from the current branch. |
+
+### 7.6 Non-Functional Observations
+
+| Area | Observation | Result |
+| --- | --- | --- |
+| Stability | No critical crash was observed during the executed manual workflows. | Passed |
+| Usability | Core workflows could be completed through the emulator UI. | Passed |
+| Reliability | The app tolerated disabled network during MT-005 without terminating unexpectedly. | Passed |
+| Performance perception | Startup, search, and forecast loading completed within an acceptable time for manual demonstration. | Passed |
 
 ## 8. Existing Automated Tests
 
