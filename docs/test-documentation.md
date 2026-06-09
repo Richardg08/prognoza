@@ -9,7 +9,7 @@ This test plan covers the quality assurance points required for the project subm
 | Functional testing | Manual functional/system tests `MT-001` to `MT-006` verify startup, place search, forecast display, settings, offline behavior, and provider behavior. | Covered |
 | Non-functional testing | Non-functional tests `NFT-001` to `NFT-005` verify stability, usability, performance, reliability, and emulator compatibility. | Covered |
 | Performance consideration | `NFT-003` defines manual startup and forecast loading thresholds. Threshold values are stored externally in `docs/manual-test-data.md`. | Covered |
-| Unit testing | Existing shared-module unit tests are documented as `UT-001` to `UT-051` and executed with Gradle. | Covered |
+| Unit testing | Existing and added shared-module unit tests are documented as `UT-001` to `UT-058` and executed with Gradle. | Covered |
 | System testing | `MT-001`, `MT-002`, `MT-003`, and `MT-005` verify complete app workflows on an Android emulator. | Covered |
 | User acceptance testing | The core user acceptance condition is fulfilled when app startup, place selection, and forecast display pass. | Covered |
 | Used test tools | Android Studio, Android Emulator, Gradle, Logcat, and optional `adb` are documented as test tools. | Covered |
@@ -91,7 +91,7 @@ This section defines the requirements that are used as the basis for testing. Th
 | REQ-001 | The app shall use freely available weather data from REST-based APIs. | Weather data can be requested from at least one supported open weather provider. The provider usage is documented and visible in the codebase. | MT-001, MT-006 |
 | REQ-002 | The app shall display current weather and forecast information for a selected place. | After a place is selected and data is available, the app displays current weather and forecast sections without crashing. | UT-025, UT-026, UT-027, UT-028, MT-002, MT-003 |
 | REQ-003 | The app shall allow users to search for and select places. | A user can search for a place, select it, and use it as the active forecast location. Invalid coordinates are rejected by the domain model. | UT-004, UT-005, UT-006, MT-002 |
-| REQ-004 | The app shall support different measurement units. | Temperature, speed, precipitation/length, pressure, percentage, and angle values are converted correctly where applicable. | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051, MT-004 |
+| REQ-004 | The app shall support different measurement units. | Temperature, speed, precipitation/length, pressure, percentage, and angle values are converted correctly where applicable. | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051, UT-052, UT-053, UT-054, UT-055, UT-056, UT-057, UT-058, MT-004 |
 | REQ-005 | The app shall correctly process weather-specific domain logic. | Forecast data is grouped into current, today, and coming-day sections. Wind chill and day/night calculation behave according to known expected values. | UT-007, UT-008, UT-009, UT-010, UT-011, UT-012, UT-013, UT-014, UT-015, UT-016, UT-017, UT-018, UT-019, UT-020, UT-021, UT-025, UT-026, UT-027, UT-028, UT-033, UT-034, UT-035, UT-036 |
 | REQ-006 | The app shall handle loading states in the UI in a controlled way. | The loading indicator is not shown too early, remains visible long enough to avoid flicker, and follows the latest loading state. | UI-001, UI-002, UI-003, UI-004, UI-005, UI-006, UI-007, MT-003 |
 | REQ-007 | The app shall run on an Android emulator for demonstration. | The app builds, installs, starts, and supports the main weather workflow on an emulator. | MT-001, MT-002, MT-003 |
@@ -107,7 +107,7 @@ The `UT-*` and `UI-*` identifiers refer to existing automated tests. The `MT-*` 
 | REQ-001 | None currently. API provider code exists, but no automated API integration test is documented. | MT-001, MT-006 | Partially covered |
 | REQ-002 | UT-025, UT-026, UT-027, UT-028 | MT-002, MT-003 | Covered by unit and manual tests |
 | REQ-003 | UT-004, UT-005, UT-006 | MT-002 | Partially covered |
-| REQ-004 | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051 | MT-004 | Covered by unit and manual tests |
+| REQ-004 | UT-001, UT-002, UT-003, UT-022, UT-023, UT-024, UT-029, UT-030, UT-031, UT-032, UT-037, UT-038, UT-039, UT-040, UT-041, UT-042, UT-043, UT-044, UT-045, UT-046, UT-047, UT-048, UT-049, UT-050, UT-051, UT-052, UT-053, UT-054, UT-055, UT-056, UT-057, UT-058 | MT-004 | Covered by unit and manual tests |
 | REQ-005 | UT-007, UT-008, UT-009, UT-010, UT-011, UT-012, UT-013, UT-014, UT-015, UT-016, UT-017, UT-018, UT-019, UT-020, UT-021, UT-025, UT-026, UT-027, UT-028, UT-033, UT-034, UT-035, UT-036 | MT-003 | Covered by unit and manual tests |
 | REQ-006 | UI-001, UI-002, UI-003, UI-004, UI-005, UI-006, UI-007 | MT-003 | Covered by UI and manual tests |
 | REQ-007 | None currently. Emulator execution is verified manually. | MT-001, MT-002, MT-003 | Manual coverage required |
@@ -453,6 +453,13 @@ The Android UI tests are located in `androidApp/src/androidTest`. These are clos
 | UT-049 | `SpeedTest.kt` | `converts miles per hour to others` | Verify conversion from miles per hour to other speed units. |
 | UT-050 | `SpeedTest.kt` | `converts kilometers per hour to others` | Verify conversion from kilometers per hour to other speed units. |
 | UT-051 | `SpeedTest.kt` | `converts knots to others` | Verify conversion from knots to other speed units. |
+| UT-052 | `PressureTest.kt` | `allows zero pressure` | Verify zero pressure is accepted as the lower valid boundary. |
+| UT-053 | `LengthTest.kt` | `allows zero length` | Verify zero precipitation/length is accepted as the lower valid boundary. |
+| UT-054 | `PercentageTest.kt` | `allows zero and one hundred percent boundaries` | Verify percentage boundaries 0%, 100%, 0.0 fraction, and 1.0 fraction are accepted. |
+| UT-055 | `TemperatureTest.kt` | `throws exception at absolute zero boundary` | Verify the exact absolute-zero boundary is rejected. |
+| UT-056 | `TemperatureTest.kt` | `allows temperature slightly above absolute zero` | Verify temperatures just above absolute zero are accepted and converted. |
+| UT-057 | `SpeedTest.kt` | `allows zero speed` | Verify zero speed is accepted and maps to calm Beaufort scale. |
+| UT-058 | `SpeedTest.kt` | `maps exact Beaufort thresholds to next scale` | Verify exact Beaufort threshold values map to the next wind scale. |
 
 ### 8.2 Android UI Test Inventory
 

@@ -1,5 +1,6 @@
 package hr.dtakac.prognoza.ui.theme
 
+import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.glance.LocalContext
@@ -369,10 +370,6 @@ fun Description.asWeatherIconResId(
 @DrawableRes
 fun Description.asGlanceWeatherIconResId(
     useDarkTheme: Boolean = LocalContext.current.let {
-        try {
-            it.resources.configuration.isNightModeActive
-        } catch (_: NoSuchMethodError) {
-            false
-        }
+        it.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 ): Int = asWeatherIconResId(WeatherIcons.get(useDarkTheme))

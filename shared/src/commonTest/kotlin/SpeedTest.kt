@@ -70,6 +70,46 @@ class SpeedTest { // Not Ookla ;)
         )
     }
 
+    // UT-057
+    @Test
+    fun `allows zero speed`() {
+        val speed = Speed(0.0, SpeedUnit.METRE_PER_SECOND)
+        assertSpeedsAreAsExpected(
+            speed = speed,
+            expectedMps = 0.0,
+            expectedKmh = 0.0,
+            expectedMph = 0.0,
+            expectedBeaufort = BeaufortScale.CALM,
+            expectedKt = 0.0
+        )
+    }
+
+    // UT-058
+    @Test
+    fun `maps exact Beaufort thresholds to next scale`() {
+        val mphToExpectedScale = mapOf(
+            1.0 to BeaufortScale.LIGHT_AIR,
+            3.0 to BeaufortScale.LIGHT_BREEZE,
+            7.0 to BeaufortScale.GENTLE_BREEZE,
+            12.0 to BeaufortScale.MODERATE_BREEZE,
+            18.0 to BeaufortScale.FRESH_BREEZE,
+            24.0 to BeaufortScale.STRONG_BREEZE,
+            31.0 to BeaufortScale.NEAR_GALE,
+            38.0 to BeaufortScale.GALE,
+            46.0 to BeaufortScale.SEVERE_GALE,
+            54.0 to BeaufortScale.STORM,
+            63.0 to BeaufortScale.VIOLENT_STORM,
+            72.0 to BeaufortScale.HURRICANE
+        )
+
+        mphToExpectedScale.forEach { (mph, expectedScale) ->
+            assertEquals(
+                expected = expectedScale,
+                actual = Speed(mph, SpeedUnit.MILE_PER_HOUR).beaufortScale
+            )
+        }
+    }
+
     private fun assertSpeedsAreAsExpected(
         speed: Speed,
         expectedMps: Double,

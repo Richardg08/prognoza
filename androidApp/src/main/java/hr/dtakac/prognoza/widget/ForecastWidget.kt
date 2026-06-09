@@ -1,5 +1,6 @@
 package hr.dtakac.prognoza.widget
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.DpSize
@@ -47,6 +48,7 @@ class ForecastWidget : GlanceAppWidget() {
 
     override val stateDefinition = ForecastWidgetStateDefinition
 
+    @SuppressLint("RestrictedApi")
     @Composable
     override fun Content() {
         val colors = dynamicThemeColorProviders()

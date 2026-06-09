@@ -68,4 +68,30 @@ class TemperatureTest {
             Temperature(-280.0, TemperatureUnit.DEGREE_CELSIUS)
         }
     }
+
+    // UT-055
+    @Test
+    fun `throws exception at absolute zero boundary`() {
+        assertFailsWith<IllegalStateException> {
+            Temperature(-273.15, TemperatureUnit.DEGREE_CELSIUS)
+        }
+        assertFailsWith<IllegalStateException> {
+            Temperature(-459.67, TemperatureUnit.DEGREE_FAHRENHEIT)
+        }
+    }
+
+    // UT-056
+    @Test
+    fun `allows temperature slightly above absolute zero`() {
+        assertEquals(
+            expected = -273.149,
+            actual = Temperature(-273.149, TemperatureUnit.DEGREE_CELSIUS).celsius,
+            absoluteTolerance = tolerance
+        )
+        assertEquals(
+            expected = -459.6682,
+            actual = Temperature(-273.149, TemperatureUnit.DEGREE_CELSIUS).fahrenheit,
+            absoluteTolerance = tolerance
+        )
+    }
 }
