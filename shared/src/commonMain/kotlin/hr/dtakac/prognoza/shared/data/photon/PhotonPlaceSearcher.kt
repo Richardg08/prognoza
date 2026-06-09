@@ -23,4 +23,16 @@ internal class PhotonPlaceSearcher(
             PlaceSearcherResult.Success(it)
         } ?: PlaceSearcherResult.Error
     }
+
+    override suspend fun reverse(latitude: Double, longitude: Double): PlaceSearcherResult {
+        val entities = try {
+            photonPlaceService.reverse(latitude, longitude).features.map(PhotonFeature::toEntity)
+        } catch (e: Exception) {
+            Napier.e(TAG, e)
+            null
+        }
+        return entities?.let {
+            PlaceSearcherResult.Success(it)
+        } ?: PlaceSearcherResult.Error
+    }
 }

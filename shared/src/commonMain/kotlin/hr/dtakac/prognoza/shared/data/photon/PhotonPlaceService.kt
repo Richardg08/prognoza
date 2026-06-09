@@ -13,4 +13,11 @@ internal class PhotonPlaceService(
             parameter("q", query)
         }
         .body()
+
+    suspend fun reverse(latitude: Double, longitude: Double): PhotonResponse = client
+        .get(urlString = "$baseUrl/reverse") {
+            parameter("lat", latitude)
+            parameter("lon", longitude)
+        }
+        .body()
 }

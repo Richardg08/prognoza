@@ -105,6 +105,10 @@ internal class InternalPrognozaSdkFactory constructor(
                 placeSaver = placeRepository,
                 settingsRepository = settingsRepository
             )
+
+            override val searchPlacesByLocation = SearchPlacesByLocation(
+                placeSearcher = placeSearcher
+            )
         }
     }
 

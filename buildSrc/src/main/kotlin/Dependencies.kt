@@ -47,6 +47,7 @@ object Dependencies {
     object Coroutines {
         private const val version = "1.6.1"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
+        const val playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
     }
 
@@ -62,6 +63,7 @@ object Dependencies {
         const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
         const val work = "androidx.work:work-runtime-ktx:2.7.1"
         const val glance = "androidx.glance:glance-appwidget:1.0.0-alpha05"
+        const val location = "com.google.android.gms:play-services-location:21.0.1"
 
         object Hilt {
             private const val version = GlobalVersions.hilt
