@@ -12,7 +12,7 @@ This test plan covers the quality assurance points required for the project subm
 | Unit testing | Existing and added shared-module unit tests are documented as `UT-001` to `UT-058` and executed with Gradle. | Covered |
 | System testing | `MT-001`, `MT-002`, `MT-003`, and `MT-005` verify complete app workflows on an Android emulator. | Covered |
 | User acceptance testing | The core user acceptance condition is fulfilled when app startup, place selection, and forecast display pass. | Covered |
-| Used test tools | Android Studio, Android Emulator, Gradle, Logcat, and optional `adb` are documented as test tools. | Covered |
+| Used test tools | Android Studio, Android Emulator, Gradle, Android lint, Logcat, and optional `adb` are documented as test tools. | Covered |
 | External test data | Manual and non-functional test data is stored in `docs/manual-test-data.md` instead of being hardcoded only inside test descriptions. | Covered |
 | APK packaging and deployment check | The Android application module provides Gradle tasks for building and installing a debug APK. APK packaging can be tested with `:androidApp:assembleDebug` and `:androidApp:installDebug`. | Covered |
 
@@ -139,6 +139,8 @@ Manual test data is stored separately in `docs/manual-test-data.md`. This keeps 
 | --- | --- |
 | Android Studio | Build, install, and run the app on an emulator. |
 | Android Emulator | Execute the application in an environment accepted by the assignment. |
+| Gradle | Execute automated unit, UI, lint, APK packaging, and installation tasks. |
+| Android lint | Detect Android-specific code, manifest, resource, API compatibility, and packaging issues. |
 | Logcat | Observe crashes, stack traces, permission errors, and network-related errors during manual execution. |
 | Optional `adb` | Reset app data or check connected devices from the command line. |
 
@@ -283,7 +285,17 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | NFT-005 | Passed | App was executable on the documented Android emulator environment. |
 | PKG-001 | Passed | Debug APK was built and installed on the connected emulator. |
 
-### 7.6 Non-Functional Observations
+### 7.6 Automated Command Execution Report
+
+| Command | Purpose | Result |
+| --- | --- | --- |
+| `./gradlew :shared:testDebugUnitTest` | Execute shared-module unit tests, including edge-case tests `UT-052` to `UT-058`. | Passed |
+| `./gradlew :androidApp:lintDebug` | Execute Android lint for static analysis of code, resources, manifest, API compatibility, and packaging-related issues. | Passed |
+| `./gradlew :androidApp:assembleDebug` | Build the debug APK artifact. | Passed |
+| `./gradlew :androidApp:installDebug` | Install the debug APK on the connected emulator. | Passed |
+| `./gradlew :androidApp:connectedDebugAndroidTest -Pandroid.experimental.androidTest.useUnifiedTestPlatform=false` | Execute Android instrumented UI/component tests on an emulator. | Passed |
+
+### 7.7 Non-Functional Observations
 
 | Area | Observation | Result |
 | --- | --- | --- |
@@ -292,7 +304,7 @@ For user acceptance, the core workflow is accepted when MT-001, MT-002, and MT-0
 | Reliability | The app tolerated disabled network during MT-005 without terminating unexpectedly. | Passed |
 | Performance | Startup and forecast loading stayed within the documented manual performance thresholds. | Passed |
 
-### 7.7 Non-Functional Test Cases
+### 7.8 Non-Functional Test Cases
 
 Non-functional tests verify quality attributes instead of one single feature. In Python project terms, this is similar to checking that a script starts fast enough, does not crash during a normal workflow, and behaves predictably when external services are unavailable.
 
@@ -376,7 +388,7 @@ Non-functional tests verify quality attributes instead of one single feature. In
 | Status | Passed. |
 | Notes / evidence | Other Android versions and physical devices were not part of this execution. |
 
-### 7.8 APK Packaging And Deployment Check
+### 7.9 APK Packaging And Deployment Check
 
 | Field | Value |
 | --- | --- |
